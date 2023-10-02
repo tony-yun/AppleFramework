@@ -20,6 +20,13 @@ class FrameworkListViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        // collectionView size inspector -> estimate size: none를 코드로 만들어보기(버튼으로 해도되지만 코드로 하면 직관적임, 선택사항)
+        if let flowlayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowlayout.estimatedItemSize = .zero
+        }
+        
+        // 컨텐츠 상하좌우 여백주기
+        collectionView.contentInset = UIEdgeInsets(top: 20, left: 16, bottom: 0, right: 16)
     }
 }
 
@@ -49,7 +56,9 @@ extension FrameworkListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let interItemSpacing: CGFloat = 10
-        let width = (collectionView.bounds.width - interItemSpacing * 2) / 3
+        let paddingSpacing: CGFloat = 16
+        
+        let width = (collectionView.bounds.width - interItemSpacing * 2 - paddingSpacing * 2) / 3
         let height = width * 1.5
         return CGSize(width: width, height: height)
     }
