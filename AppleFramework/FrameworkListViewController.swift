@@ -20,6 +20,9 @@ class FrameworkListViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        // navigation controller top item title 코드로 변경
+        navigationController?.navigationBar.topItem?.title = "Apple Frameworks"
+        
         // collectionView size inspector -> estimate size: none를 코드로 만들어보기(버튼으로 해도되지만 코드로 하면 직관적임, 선택사항)
         if let flowlayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowlayout.estimatedItemSize = .zero
@@ -55,12 +58,23 @@ extension FrameworkListViewController: UICollectionViewDataSource {
 extension FrameworkListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        // 3열일 때 계산
         let interItemSpacing: CGFloat = 10
         let paddingSpacing: CGFloat = 16
         
         let width = (collectionView.bounds.width - interItemSpacing * 2 - paddingSpacing * 2) / 3
         let height = width * 1.5
         return CGSize(width: width, height: height)
+        
+//        // 2열일 때 계산
+//        let interItemSpacing: CGFloat = 10
+//        let paddingSpacing: CGFloat = 16
+//        
+//        //interItemSpacing 아이템 간 spacing, 따라서 *2 -> *1 변경
+//        // 좌우의 padding은 그대로
+//        let width = (collectionView.bounds.width - interItemSpacing * 3 - paddingSpacing * 2) / 4
+//        let height = width * 1.5
+//        return CGSize(width: width, height: height)
     }
     
     // 좌우 아이템 간 간격
@@ -71,5 +85,13 @@ extension FrameworkListViewController: UICollectionViewDelegateFlowLayout {
     // 위아래 아이템 간 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+}
+
+// item touch에 반응하기
+extension FrameworkListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let framework = list[indexPath.item]
+        print("selected: \(framework.name)")
     }
 }
